@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Genre>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Music Charts</h1>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+    <div style="display:flex; flex-wrap:wrap; 
+                justify-content: space-around;">
+             @foreach(var item in Model)
+             {
+                <div style="width:100px;">
+                    <h3>
+                        <a asp-controller="Genre" asp-action="Info"
+                           asp-route-id="@item.Name">@item.Name</a>
+                    </h3>
+
+
+                    <div style="display:flex; flex-wrap:wrap;
+                                justify-content:center;">
+                        <br>
+                        @foreach (var detail in item.Tracks.OrderBy(x => x.Name))
+                        {
+                        <p>
+                            <span style="font-weight:700;">@detail.Name</span>
+                            -@string.Join(", ", detail.Singers.Select(x => x.Name))
+
+                        </p>
+                        }
+                    </div>
+
+                    @if (item.Tracks.Count() > 5)
+                    {
+                        <p>...</p>
+                    }
+                </div>
+             }
+    </div>
+</div>
